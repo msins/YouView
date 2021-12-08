@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_description">YouTube monitoring service used for analysis of user behavior.\n\n
+        *For this service to work you have to enable accessibility mode in the YouTube app.\n\n
+        *Service will quietly shutdown when the research is over.
+    </string>
+    <string name="app_name">YouView</string>
+    <string name="enter">open</string>
+    <string name="exit">exit</string>
+    <string name="double_tap_to_skip">double tap left or right to skip 10 seconds</string>
+    <string name="play">play video</string>
+    <string name="skip_ads">skip ads</string>
+    <string name="exit_full_screen">exit full screen</string>
+    <string name="enter_full_screen">enter full screen</string>
+    <string name="pause">pause video</string>
+    <string name="replay">replay</string>
+    <string name="fast_forward">fast-forward 10 seconds</string>
+    <string name="rewind_video">rewind 10 seconds</string>
+    <string name="next_video">next video</string>
+    <string name="to1080p">1080p will apply to your current video</string>
+    <string name="skip_ad">skip ad</string>
+    <string name="previous_video">previous video</string>
+    <string name="higher_picture_quality">higher picture quality will apply to your current video</string>
+    <string name="data_saver_quality">data saver will apply to your current video</string>
+    <string name="to1440p">1440p will apply to your current video</string>
+    <string name="to2160p">2160p will apply to your current video</string>
+    <string name="to720p">720p will apply to your current video</string>
+    <string name="to480p">480p will apply to your current video</string>
+    <string name="to360p">360p will apply to your current video</string>
+    <string name="to240p">240p will apply to your current video</string>
+    <string name="to144p">144p will apply to your current video</string>
+    <string name="play_now">play now</string>
+    <string name="click_ad">te</string>
+</resources>
