@@ -2,7 +2,6 @@ package edu.fer.ztel.youview
 
 import android.view.accessibility.AccessibilityEvent
 import edu.fer.ztel.youview.event_handlers.*
-import java.util.*
 
 abstract class EventHandler(private val accessibilityEvent: AccessibilityEvent) {
   abstract val eventType: String
@@ -19,17 +18,20 @@ abstract class EventHandler(private val accessibilityEvent: AccessibilityEvent) 
    */
   abstract val trackedEvents: List<Event>
 
-  private fun anyMatch(): Event? {
-    val temp = trackedEvents.firstOrNull { trackedEvent ->
-      !Collections.disjoint(
-        trackedEvent.textResources,
-        accessibilityEvent.text.map { it.toString().lowercase() }
-      )
+  private fun anyMatch(): Pair<String, Event>? {
+    val accessibilityTexts = accessibilityEvent.text.map { it.toString().lowercase() }
+    for (event in trackedEvents) {
+      val match = event.textResources.find { accessibilityTexts.contains(it) }
+      if (match != null) {
+        return Pair(match, event)
+      }
     }
-    return temp
+
+    return null
   }
 
-  fun ifValid(onValidEvent: (Event) -> Unit) {
+
+  fun ifValid(onValidEvent: (Pair<String, Event>) -> Unit) {
     val event = anyMatch() ?: return
     onValidEvent(event)
   }

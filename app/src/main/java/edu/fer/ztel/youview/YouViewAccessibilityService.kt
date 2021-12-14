@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import edu.fer.ztel.youview.networking.Config
 import edu.fer.ztel.youview.networking.YouViewRepository
 import edu.fer.ztel.youview.utils.MetadataCollector
+import edu.fer.ztel.youview.utils.MetadataUtils
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.UnicastSubject
@@ -23,27 +24,29 @@ class YouViewAccessibilityService : AccessibilityService() {
     lateinit var metadata: Metadata
   }
 
-  private val history = UnicastSubject.create<Event>()
+  private val history = UnicastSubject.create<Pair<String, Event>>()
   private val disposable = CompositeDisposable()
 
   init {
     disposable.add(
       history
         .subscribeOn(Schedulers.trampoline())
-        .doOnNext { Log.d(TAG, "Event: ${it.handledBy}") }
-        .map { event ->
+        .map {
+          val (text, event) = it
           mapOf(
-            "android" to metadata["android_id"]!!,
-            "event" to event.handledBy,
-            "content" to "test",
-            "video" to "remove this",
-            "button" to "remove this",
-            "connection" to metadata["connection"]!!,
+            "android_id" to metadata["id"]!!,
+            "event_type" to event.handledBy,
+            "event" to event::class.simpleName.toString(),
+            "text" to text,
+            "connection" to MetadataUtils.getConnection(this),
             "time" to event.time.toString(),
           )
         }
         .flatMap { eventMap -> repository.send(eventMap).toObservable() }
-        .subscribe()
+        .subscribe(
+          { Log.d(TAG, "Sent successfully ${it.response()}") },
+          this::onError
+        )
     )
     context = WeakReference(this)
   }
@@ -54,7 +57,7 @@ class YouViewAccessibilityService : AccessibilityService() {
       repository.sendMetadata(metadata)
         .subscribeOn(Schedulers.trampoline())
         .subscribe(
-          { Log.d(TAG, "Metadata sent successfully.") },
+          { Log.d(TAG, "Metadata sent successfully. ${it.response()}") },
           this::onError
         )
     )
@@ -68,7 +71,6 @@ class YouViewAccessibilityService : AccessibilityService() {
 
   override fun onAccessibilityEvent(event: AccessibilityEvent) {
     //ignore non parsable events
-
     if (event.contentDescription == null && event.text.isEmpty()) {
       return
     }
@@ -93,6 +95,4 @@ class YouViewAccessibilityService : AccessibilityService() {
     if (disposable.isDisposed) return
     disposable.dispose()
   }
-
 }
-

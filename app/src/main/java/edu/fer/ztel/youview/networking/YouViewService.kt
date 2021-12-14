@@ -11,7 +11,7 @@ import retrofit2.http.POST
 interface YouViewService {
 
   @FormUrlEncoded
-  @POST("createLog.php")
+  @POST("eventLog.php")
   fun sendEvent(@FieldMap eventMap: Map<String, String>): Single<Result<Unit>>
 
 //    batch send not supported by backend
@@ -19,6 +19,6 @@ interface YouViewService {
 //    fun sendEvents(@Body events: List<Event>): Single<Result<Unit>>
 
   @FormUrlEncoded
-  @POST("versions.php")
+  @POST("deviceLog.php")
   fun sendMetadata(@FieldMap metadata: Metadata): Single<Result<Unit>>
 }

@@ -13,6 +13,7 @@ class TypeViewClicked(event: AccessibilityEvent) : EventHandler(event) {
     FullscreenOffEvent(eventType),
     FullscreenOnEvent(eventType),
     NextVideoEvent(eventType),
+    PreviousVideoEvent(eventType),
     RewindEvent(eventType),
     FastForwardEvent(eventType),
     SkipAdsEvent(eventType),
