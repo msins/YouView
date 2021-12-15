@@ -19,9 +19,8 @@ abstract class EventHandler(private val accessibilityEvent: AccessibilityEvent) 
   abstract val trackedEvents: List<Event>
 
   private fun anyMatch(): Pair<String, Event>? {
-    val accessibilityTexts = accessibilityEvent.text.map { it.toString().lowercase() }
     for (event in trackedEvents) {
-      val match = event.textResources.find { accessibilityTexts.contains(it) }
+      val match = event.findMatchOrNull(accessibilityEvent)
       if (match != null) {
         return Pair(match, event)
       }
