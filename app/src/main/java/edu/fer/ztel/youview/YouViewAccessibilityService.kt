@@ -42,7 +42,7 @@ class YouViewAccessibilityService : AccessibilityService() {
             "time" to event.time.toString(),
           )
         }
-        .flatMap { eventMap -> repository.send(eventMap).toObservable() }
+        .flatMapSingle { eventMap -> repository.send(eventMap) }
         .subscribe(
           { Log.d(TAG, "Sent successfully ${it.response()}") },
           this::onError
