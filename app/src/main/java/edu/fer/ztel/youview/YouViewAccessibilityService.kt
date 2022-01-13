@@ -24,12 +24,12 @@ class YouViewAccessibilityService : AccessibilityService() {
     lateinit var metadata: Metadata
   }
 
-  private val history = UnicastSubject.create<Pair<String, Event>>()
+  private val matchedEvents = UnicastSubject.create<MatchedEvent>()
   private val disposable = CompositeDisposable()
 
   init {
     disposable.add(
-      history
+      matchedEvents
         .subscribeOn(Schedulers.trampoline())
         .map {
           val (text, event) = it
@@ -70,16 +70,18 @@ class YouViewAccessibilityService : AccessibilityService() {
   }
 
   override fun onAccessibilityEvent(event: AccessibilityEvent) {
-    //ignore non parsable events
-    if (event.contentDescription == null && event.text.isEmpty()) {
+    if (!isEventValid(event)) {
       return
     }
 
-    EventHandler.forEvent(event).ifValid { history.onNext(it) }
+    EventHandler.forEvent(event).ifMatches { matchedEvents.onNext(it) }
+  }
+
+  private fun isEventValid(event: AccessibilityEvent): Boolean {
+    return event.contentDescription != null && event.text.isNotEmpty()
   }
 
   override fun onInterrupt() {
-    //todo
     Log.w(TAG, "Interrupt")
   }
 

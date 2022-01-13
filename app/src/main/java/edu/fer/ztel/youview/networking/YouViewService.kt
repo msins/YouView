@@ -12,7 +12,7 @@ interface YouViewService {
 
   @FormUrlEncoded
   @POST("eventLog.php")
-  fun sendEvent(@FieldMap eventMap: Map<String, String>): Single<Result<Unit>>
+  fun sendEvent(@FieldMap eventDetails: Map<String, String>): Single<Result<Unit>>
 
 //    batch send not supported by backend
 //    @POST

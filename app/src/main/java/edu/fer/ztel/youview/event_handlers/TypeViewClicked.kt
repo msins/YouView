@@ -18,6 +18,8 @@ class TypeViewClicked(event: AccessibilityEvent) : EventHandler(event) {
     FastForwardEvent(eventType),
     SkipAdsEvent(eventType),
     VisitAdvertiserEvent(eventType),
-    ReplayEvent(eventType)
+    ReplayEvent(eventType),
+    AccessibilityTurnedOff(eventType),
+    AccessibilityTurnedOn(eventType)
   )
 }

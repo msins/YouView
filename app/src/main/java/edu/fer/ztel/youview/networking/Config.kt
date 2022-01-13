@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object Config {
-  private const val BASE_URL = "https://youview.com.hr/"
+  private const val BASE_URL = "https://<service_url>/"
 
   val service = createService()
 

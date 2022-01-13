@@ -9,7 +9,7 @@ abstract class Event {
   val time: LocalDateTime = LocalDateTime.now()
 
   /**
-   * Override to compare something other than text.
+   * Override for fine grained matching.
    */
   fun findMatchOrNull(accessibilityEvent: AccessibilityEvent): String? {
     val accessibilityTexts = accessibilityEvent.text.map { it.toString().lowercase() }

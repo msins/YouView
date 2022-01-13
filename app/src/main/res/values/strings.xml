@@ -30,4 +30,6 @@
     <string name="to144p">144p will apply to your current video</string>
     <string name="play_now">play now</string>
     <string name="click_ad">visit advertiser</string>
+    <string name="accessibility_turned_on">Accessibility player, Display accessibility controls in the player, Off</string>
+    <string name="accessibility_turned_off">Accessibility player, Display accessibility controls in the player, On</string>
 </resources>

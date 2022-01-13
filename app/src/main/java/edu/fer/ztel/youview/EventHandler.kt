@@ -6,33 +6,22 @@ import edu.fer.ztel.youview.event_handlers.*
 abstract class EventHandler(private val accessibilityEvent: AccessibilityEvent) {
   abstract val eventType: String
 
-  /**
-   * It might be weird why there are multiple event handlers, each with it's own tracked event list.
-   *
-   * Problem is that accessibility events could be published with different types ex.
-   * Event with the text "Pause video" could appear when the pause button is focused or clicked,
-   * since we are interested only in the one caused by a click, we can't have a global
-   * list of tracked events.
-   *
-   * Could be implemented with some filters but this is easier.
-   */
   abstract val trackedEvents: List<Event>
 
-  private fun anyMatch(): Pair<String, Event>? {
+  private fun anyMatch(): MatchedEvent? {
     for (event in trackedEvents) {
       val match = event.findMatchOrNull(accessibilityEvent)
       if (match != null) {
-        return Pair(match, event)
+        return MatchedEvent(match, event)
       }
     }
 
     return null
   }
 
-
-  fun ifValid(onValidEvent: (Pair<String, Event>) -> Unit) {
+  fun ifMatches(onEventMatched: (MatchedEvent) -> Unit) {
     val event = anyMatch() ?: return
-    onValidEvent(event)
+    onEventMatched(event)
   }
 
   companion object {
