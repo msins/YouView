@@ -17,4 +17,4 @@ Some of the basic tracked events are (more were added later):
 - end of video
 
 Supports parsing events in multiple languages if a language xml resource for the default locale is provided.\
-Overriding default ```isMatchOrNull``` method on event allows for fine grained matching.
+Overriding default ```isMatchOrNull``` method in implementaion of ```Event``` allows for fine grained matching.
